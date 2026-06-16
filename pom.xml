@@ -21,6 +21,10 @@
         <java.version>22</java.version>
         <spring.boot.version>3.3.0</spring.boot.version>
         <spring.modulith.version>1.2.0</spring.modulith.version>
+
+            <maven.compiler.source>22</maven.compiler.source>
+            <maven.compiler.target>22</maven.compiler.target>
+
     </properties>
 
     <dependencyManagement>

@@ -7,6 +7,10 @@
         <relativePath>../../../pom.xml</relativePath>
     </parent>
 
+    <properties>
+        <java.version>22</java.version>
+    </properties>
+
     <artifactId>stock-adapters</artifactId>
 
     <dependencies>
