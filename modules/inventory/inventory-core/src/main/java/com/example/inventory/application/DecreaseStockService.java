@@ -1,15 +1,15 @@
 package com.example.inventory.application;
 
-import com.example.inventory.domain.event.StockDecreasedEvent;
 import com.example.inventory.domain.model.InventoryItem;
+import com.example.inventory.port.in.DecreaseStockUseCase;
 import com.example.inventory.port.out.InventoryRepository;
 
 
-public class DecreaseStockUseCase {
+public class DecreaseStockService implements DecreaseStockUseCase {
 
     private final InventoryRepository repo;
 
-    public DecreaseStockUseCase(InventoryRepository repo) {
+    public DecreaseStockService(InventoryRepository repo) {
         this.repo = repo;
 
     }

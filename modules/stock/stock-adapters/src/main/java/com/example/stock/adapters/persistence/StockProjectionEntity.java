@@ -15,11 +15,8 @@ public class StockProjectionEntity {
 
     private boolean reorderNeeded;
 
-    // Constructors, getters, and setters
-
     public Integer getItemId() { return itemId; }
     public void setItemId(Integer itemId) { this.itemId = itemId; }
-
 
     public int getQuantity() { return quantity; }
     public void setQuantity(int quantity) { this.quantity = quantity; }

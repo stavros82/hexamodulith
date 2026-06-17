@@ -1,0 +1,97 @@
+{
+  "info": {
+    "name": "Inventory & Stock Endpoints",
+    "description": "Postman collection for InventoryController and StockController endpoints.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.3"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "name", "value": "Item-A" },
+    { "key": "amount", "value": "5" },
+    { "key": "quantity", "value": "10" },
+    { "key": "reorderNeeded", "value": "false" },
+    { "key": "itemId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Inventory - Create Item (capture itemId)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/inventory/create/{{name}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["inventory", "create", "{{name}}"]
+        },
+        "description": "POST /inventory/create/{name}\nReturns an InventoryItem JSON."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.environment.unset('itemId');",
+              "",
+              "pm.test('Create returns 200/201', function () {",
+              "  pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+              "});",
+              "",
+              "if (pm.response.code === 200 || pm.response.code === 201) {",
+              "  const json = pm.response.json();",
+              "  console.log('Create response JSON:', json);",
+              "",
+              "  const candidates = [",
+              "    json?.itemId,",
+              "    json?.id,",
+              "    json?.item_id,",
+              "    json?.itemID,",
+              "    json?.inventoryItem?.itemId,",
+              "    json?.inventoryItem?.id",
+              "  ];",
+              "",
+              "  const found = candidates.find(v => v !== undefined && v !== null);",
+              "  if (found !== undefined) {",
+              "    pm.environment.set('itemId', String(found));",
+              "  }",
+              "",
+              "  pm.test('itemId captured', function () {",
+              "    const captured = pm.environment.get('itemId');",
+              "    pm.expect(captured, 'itemId should be set').to.be.a('string');",
+              "    pm.expect(captured, 'itemId should not be empty').to.not.equal('');",
+              "  });",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Inventory - Decrease Stock (uses itemId)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/inventory/{{itemId}}/decrease/{{amount}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["inventory", "{{itemId}}", "decrease", "{{amount}}"]
+        },
+        "description": "POST /inventory/{itemId}/decrease/{amount}\nResponse: 200 with integer newQty."
+      }
+    },
+    {
+      "name": "Stock - Update (uses itemId)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/stock/{{itemId}}/update/{{quantity}}/{{reorderNeeded}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["stock", "{{itemId}}", "update", "{{quantity}}", "{{reorderNeeded}}"]
+        },
+        "description": "POST /stock/{itemId}/update/{quantity}/{reorderNeeded}\nResponse: void."
+      }
+    }
+  ]
+}

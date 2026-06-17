@@ -1,6 +1,7 @@
 package com.example.stock.port.out;
 
+import com.example.stock.domain.StockUpdate;
+
 public interface StockProjectionRepository {
-    void updateStockLevel(Integer itemId, int qty);
-    void markForReorder(Integer itemId);
+    void updateStock(StockUpdate stockUpdate);
 }

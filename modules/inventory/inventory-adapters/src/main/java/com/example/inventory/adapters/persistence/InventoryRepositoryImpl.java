@@ -19,16 +19,17 @@ public class InventoryRepositoryImpl implements InventoryRepository {
     public InventoryItem findByItemId(Integer itemId) {
         InventoryItemEntity e = jpa.findById(itemId)
                 .orElseThrow(() -> new RuntimeException("itemId not found: " + itemId));
-        return new InventoryItem(e.getItemId(), e.getQuantity());
+        return new InventoryItem(e.getItemId(), e.getQuantity(), e.getName());
     }
 
     @Override
     public InventoryItem save(InventoryItem item) {
         InventoryItemEntity e = new InventoryItemEntity();
 
-        e.setQuantity(item.quantity());
+        e.setQuantity(item.getQuantity());
         e.setName(item.getName());
-        jpa.save(e);
-        return item;
+
+       jpa.save(e);
+        return new InventoryItem(e.getItemId(), e.getQuantity(), e.getName());
     }
 }

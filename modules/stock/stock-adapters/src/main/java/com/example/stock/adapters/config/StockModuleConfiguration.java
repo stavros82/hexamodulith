@@ -1,6 +1,7 @@
 package com.example.stock.adapters.config;
 
-import com.example.stock.application.StockProjectionService;
+import com.example.stock.application.UpdateStockService;
+import com.example.stock.port.in.UpdateStockUseCase;
 import com.example.stock.port.out.StockProjectionRepository;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
@@ -16,9 +17,7 @@ import org.springframework.modulith.ApplicationModule;
 public class StockModuleConfiguration {
 
     @Bean
-    public StockProjectionService stockProjectionService(
-            StockProjectionRepository repo
-    ) {
-        return new StockProjectionService(repo);
+    public UpdateStockUseCase updateStockUseCase(StockProjectionRepository repo) {
+        return new UpdateStockService(repo);
     }
 }

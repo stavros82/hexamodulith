@@ -1,37 +1,61 @@
 package com.example.inventory.domain.model;
 
-
-
 public class InventoryItem {
 
-    private  Integer itemId;
+    private final Integer itemId;
     private int quantity;
-    private  String name;
-    public InventoryItem(Integer itemId, int quantity, String name) {
+    private String name;
+    private boolean reorderNeeded;
+
+    // Full constructor
+    public InventoryItem(Integer itemId, int quantity, String name, boolean reorderNeeded) {
         this.itemId = itemId;
         this.quantity = quantity;
-
         this.name = name;
-    }
-    public InventoryItem(Integer itemId, int quantity) {
-        this.itemId = itemId;
-        this.quantity = quantity;
-
-
+        this.reorderNeeded = reorderNeeded;
     }
 
+    // Constructor without reorder flag
+    public InventoryItem(Integer itemId, int quantity, String name) {
+        this(itemId, quantity, name, false);
+    }
+
+    // Constructor for new items (name only)
     public InventoryItem(String name) {
-
+        this.itemId = null; // assigned by DB
         this.quantity = 0;
         this.name = name;
+        this.reorderNeeded = false;
     }
 
 
 
+    // Getters
 
-    public Integer itemId() { return itemId; }
-    public int quantity() { return quantity; }
-    public String getName() { return name; }
+    public Integer getItemId() {
+        return itemId;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isReorderNeeded() {
+        return reorderNeeded;
+    }
+
+    // Domain behavior
+    public void updateStock(int newQuantity) {
+        this.quantity = newQuantity;
+    }
+
+    public void markReorderNeeded(boolean needed) {
+        this.reorderNeeded = needed;
+    }
 
     public int decrease(int amount) {
         this.quantity -= amount;
@@ -39,6 +63,7 @@ public class InventoryItem {
     }
 
     public int increase(int amount) {
-           return this.quantity += amount;
+        this.quantity += amount;
+        return this.quantity;
     }
 }

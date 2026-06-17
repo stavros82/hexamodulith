@@ -1,7 +1,11 @@
 package com.example.inventory.adapters.config;
 
-import com.example.inventory.application.CreateInventoryUseCase;
-import com.example.inventory.application.DecreaseStockUseCase;
+import com.example.inventory.application.ApplyStockUpdateService;
+import com.example.inventory.application.CreateInventoryService;
+import com.example.inventory.application.DecreaseStockService;
+import com.example.inventory.port.in.ApplyStockUpdateUseCase;
+import com.example.inventory.port.in.CreateInventoryUseCase;
+import com.example.inventory.port.in.DecreaseStockUseCase;
 import com.example.inventory.port.out.InventoryRepository;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
@@ -14,12 +18,18 @@ import org.springframework.modulith.ApplicationModule;
 @EnableJpaRepositories(basePackages = "com.example.inventory.adapters.persistence")
 @ApplicationModule(allowedDependencies = "inventory-core")
 public class InventoryModuleConfiguration {
+
+    @Bean
+    public ApplyStockUpdateUseCase applyStockUpdateUseCase(InventoryRepository repo) {
+        return new ApplyStockUpdateService(repo);
+    }
+
     @Bean
     public CreateInventoryUseCase createInventoryService(
           InventoryRepository repo
 
     ) {
-        return new CreateInventoryUseCase(repo);
+        return new CreateInventoryService(repo);
     }
 
 
@@ -29,7 +39,7 @@ public class InventoryModuleConfiguration {
           InventoryRepository repo
 
     ) {
-        return new DecreaseStockUseCase(repo);
+        return new DecreaseStockService(repo);
     }
 
 
