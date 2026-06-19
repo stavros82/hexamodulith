@@ -9,7 +9,7 @@
     <modules>
         <module>app</module>
         <module>shared-kernel</module>
-
+       <module>outbox-module</module>
         <!-- Example module -->
         <module>modules/inventory/inventory-adapters</module>
         <module>modules/inventory/inventory-core</module>
@@ -20,7 +20,7 @@
     <properties>
         <java.version>22</java.version>
         <spring.boot.version>3.3.0</spring.boot.version>
-        <spring.modulith.version>1.2.0</spring.modulith.version>
+        <spring.modulith.version>1.2.1</spring.modulith.version>
 
             <maven.compiler.source>22</maven.compiler.source>
             <maven.compiler.target>22</maven.compiler.target>
@@ -81,8 +81,26 @@
                 <artifactId>shared-kernel</artifactId>
                 <version>1.0.0</version>
             </dependency>
-
+            <dependency>
+                <groupId>com.example</groupId>
+                <artifactId>outbox-module</artifactId>
+                <version>1.0.0</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

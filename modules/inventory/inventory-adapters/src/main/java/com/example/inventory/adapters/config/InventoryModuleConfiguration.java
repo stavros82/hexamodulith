@@ -14,9 +14,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.modulith.ApplicationModule;
 
 @Configuration
-@EntityScan(basePackages = "com.example.inventory.adapters.persistence")
+@EntityScan(basePackages = "com.example")
 @EnableJpaRepositories(basePackages = "com.example.inventory.adapters.persistence")
-@ApplicationModule(allowedDependencies = "inventory-core")
+@ApplicationModule(allowedDependencies = {"inventory-core", "outbox-module"})
 public class InventoryModuleConfiguration {
 
     @Bean

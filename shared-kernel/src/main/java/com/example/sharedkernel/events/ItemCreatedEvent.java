@@ -1,4 +1,8 @@
 
 package com.example.sharedkernel.events;
 
-public record ItemCreatedEvent(Integer itemId) {}
+import java.util.UUID;
+
+public record ItemCreatedEvent(UUID eventId,Integer itemId) implements DomainEvent{
+
+}

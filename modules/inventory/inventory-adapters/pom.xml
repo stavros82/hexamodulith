@@ -16,7 +16,11 @@
             <groupId>com.example</groupId>
             <artifactId>inventory-core</artifactId>
         </dependency>
-
+        <!-- Outbox Module -->
+        <dependency>
+            <groupId>com.example</groupId>
+            <artifactId>outbox-module</artifactId>
+        </dependency>
         <!-- Spring Web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

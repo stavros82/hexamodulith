@@ -40,6 +40,8 @@
             <artifactId>spring-modulith-starter-core</artifactId>
         </dependency>
 
+
+
     </dependencies>
 
     <build>
