@@ -35,12 +35,13 @@ public class OutboxRelay {
 
     @Scheduled(fixedDelay = 5000000)
     public void process() {
-
+        log.info(">>> [Relay] Starting outbox processing, checking for events...");
         List<OutboxEntity> rows =
                 repo.findTop50ByProcessedFalseAndNextAttemptAtBeforeOrderByCreatedAtAsc(LocalDateTime.now());
+        log.info(">>> [Relay] Found {} events to process", rows.size());
 
         for (OutboxEntity row : rows) {
-
+            log.info(">>> [Relay] Processing event id={}", row.getId());
             try {
                 // Deserialize event
                 Class<?> type = Class.forName(row.getType());
@@ -57,25 +58,23 @@ public class OutboxRelay {
 
                 row.setAttempts(attempts + 1);
                 row.setNextAttemptAt(LocalDateTime.now().plusSeconds(delay));
-                row.setProcessed(false);
+                row.setProcessed(true); // Mark as processed now
                 repo.save(row);
 
-                log.info(">>> [Relay] SUCCESS id={} published again", row.getEventId());
+                log.info(">>> [Relay] SUCCESS id={} published, marked as processed", row.getEventId());
 
             } catch (Exception ex) {
+                int attempts = row.getAttempts() == null ? 0 : row.getAttempts();
+                int delay = (int) Math.min(MAX_BACKOFF_SECONDS, Math.pow(2, attempts));
 
-
-
+                row.setAttempts(attempts + 1);
+                row.setNextAttemptAt(LocalDateTime.now().plusSeconds(delay));
                 repo.save(row);
 
-                log.warn(
-                        ">>> [Relay] FAILURE id={} nextRetry={} ex={}",
-                        row.getId(),
-
-                        row.getNextAttemptAt(),
-                        ex.toString()
-                );
+                log.warn(">>> [Relay] FAILURE id={} (attempt {}) nextRetry={} ex={}",
+                        row.getId(), attempts + 1, row.getNextAttemptAt(), ex.getMessage());
             }
         }
+        log.info(">>> [Relay] Finished processing {} events", rows.size());
     }
 }
