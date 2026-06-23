@@ -5,7 +5,6 @@ import com.example.inventory.port.out.InventoryRepository;
 import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.*;
-import static org.assertj.core.api.Assertions.assertThat;
 
 class CreateInventoryServiceTest {
 
@@ -20,8 +19,8 @@ class CreateInventoryServiceTest {
 
         InventoryItem result = service.createItem(itemName);
 
-        assertThat(result).isNotNull();
-        assertThat(result.getName()).isEqualTo(itemName);
+        assert result != null;
+        assert result.getName().equals(itemName);
         verify(repository, times(1)).save(any(InventoryItem.class));
     }
 }

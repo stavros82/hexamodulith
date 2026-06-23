@@ -2,18 +2,16 @@ package com.example.inventory.domain.model;
 
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 class InventoryItemTest {
 
     @Test
     void createWithNameInitializesCorrectly() {
         InventoryItem item = new InventoryItem("Test Item");
 
-        assertThat(item.getItemId()).isNull();
-        assertThat(item.getName()).isEqualTo("Test Item");
-        assertThat(item.getQuantity()).isEqualTo(0);
-        assertThat(item.isReorderNeeded()).isFalse();
+        assert item.getItemId() == null;
+        assert item.getName().equals("Test Item");
+        assert item.getQuantity() == 0;
+        assert !item.isReorderNeeded();
     }
 
     @Test
@@ -22,7 +20,7 @@ class InventoryItemTest {
 
         item.updateStock(25);
 
-        assertThat(item.getQuantity()).isEqualTo(25);
+        assert item.getQuantity() == 25;
     }
 
     @Test
@@ -31,7 +29,7 @@ class InventoryItemTest {
 
         item.markReorderNeeded(true);
 
-        assertThat(item.isReorderNeeded()).isTrue();
+        assert item.isReorderNeeded();
     }
 
     @Test
@@ -40,8 +38,8 @@ class InventoryItemTest {
 
         int result = item.decrease(3);
 
-        assertThat(result).isEqualTo(7);
-        assertThat(item.getQuantity()).isEqualTo(7);
+        assert result == 7;
+        assert item.getQuantity() == 7;
     }
 
     @Test
@@ -50,7 +48,7 @@ class InventoryItemTest {
 
         int result = item.increase(5);
 
-        assertThat(result).isEqualTo(15);
-        assertThat(item.getQuantity()).isEqualTo(15);
+        assert result == 15;
+        assert item.getQuantity() == 15;
     }
 }

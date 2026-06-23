@@ -33,7 +33,7 @@ public class OutboxRelay {
         this.publisher = publisher;
     }
 
-    @Scheduled(fixedDelay = 5000000)
+    @Scheduled(fixedDelay = 120000)
     public void process() {
         log.info(">>> [Relay] Starting outbox processing, checking for events...");
         List<OutboxEntity> rows =
@@ -58,10 +58,10 @@ public class OutboxRelay {
 
                 row.setAttempts(attempts + 1);
                 row.setNextAttemptAt(LocalDateTime.now().plusSeconds(delay));
-                row.setProcessed(true); // Mark as processed now
+
                 repo.save(row);
 
-                log.info(">>> [Relay] SUCCESS id={} published, marked as processed", row.getEventId());
+                log.info(">>> [Relay] SUCCESS id={} published, marked as published", row.getEventId());
 
             } catch (Exception ex) {
                 int attempts = row.getAttempts() == null ? 0 : row.getAttempts();

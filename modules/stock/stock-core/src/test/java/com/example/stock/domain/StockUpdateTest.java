@@ -2,8 +2,6 @@ package com.example.stock.domain;
 
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 class StockUpdateTest {
 
     @Test
@@ -14,8 +12,8 @@ class StockUpdateTest {
 
         StockUpdate stockUpdate = new StockUpdate(itemId, quantity, reorderNeeded);
 
-        assertThat(stockUpdate.itemId()).isEqualTo(itemId);
-        assertThat(stockUpdate.quantity()).isEqualTo(quantity);
-        assertThat(stockUpdate.reorderNeeded()).isEqualTo(reorderNeeded);
+        assert stockUpdate.itemId().equals(itemId);
+        assert stockUpdate.quantity() == quantity;
+        assert stockUpdate.reorderNeeded() == reorderNeeded;
     }
 }

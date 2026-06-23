@@ -23,6 +23,7 @@ public class InventoryListener {
     private boolean testFailure;
 
     public InventoryListener(UpdateStockUseCase projectionService) {
+
         this.projectionService = projectionService;
     }
 

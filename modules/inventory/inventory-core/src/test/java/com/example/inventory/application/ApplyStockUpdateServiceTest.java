@@ -5,7 +5,6 @@ import com.example.inventory.port.out.InventoryRepository;
 import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.*;
-import static org.assertj.core.api.Assertions.assertThat;
 
 class ApplyStockUpdateServiceTest {
 
@@ -20,8 +19,8 @@ class ApplyStockUpdateServiceTest {
 
         service.apply(itemId, 25, true);
 
-        assertThat(item.getQuantity()).isEqualTo(25);
-        assertThat(item.isReorderNeeded()).isTrue();
+        assert item.getQuantity() == 25;
+        assert item.isReorderNeeded();
         verify(repo, times(1)).findByItemId(itemId);
         verify(repo, times(1)).save(item);
     }
